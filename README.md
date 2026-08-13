@@ -180,3 +180,4 @@ git checkout abc1234 -- .
 - [ ] **Add your real Instagram and Facebook URLs** in the footer
 - [ ] **Update pricing** to your actual prices
 - [ ] **Deploy to Netlify** (see Section 6)
+# Postful
