@@ -172,8 +172,8 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
 }
 .btn--primary:hover {
   background-color: var(--color-orange-dark);
-  box-shadow: 0 4px 20px rgba(255, 166, 38, 0.45);
-  transform: translateY(-1px);
+  box-shadow: 0 6px 28px rgba(255, 166, 38, 0.55);
+  transform: translateY(-2px) scale(1.02);
 }
 
 /* Ghost-light — for use on dark (green) backgrounds */
@@ -183,9 +183,9 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
   border: 1.5px solid rgba(255, 255, 255, 0.35);
 }
 .btn--ghost-light:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.6);
-  transform: translateY(-1px);
+  background-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.65);
+  transform: translateY(-2px);
 }
 
 /* Outline — for pricing cards on dark background */
@@ -197,8 +197,8 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
 .btn--outline:hover {
   background-color: var(--color-orange);
   color: #1A1A00;
-  box-shadow: 0 4px 18px rgba(255, 166, 38, 0.35);
-  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(255, 166, 38, 0.45);
+  transform: translateY(-2px);
 }
 
 .btn--lg { padding: 0.8em 2em; font-size: 1rem; border-radius: 10px; }
@@ -236,24 +236,18 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
   justify-content: space-between;
 }
 
-/* Wordmark logo in nav */
+/* Text wordmark in nav */
 .nav__logo-link {
   display: flex;
   align-items: center;
 }
 
-.nav__logo-img {
-  /* Wordmark is roughly square; height controls overall size in the nav bar.
-     Increase to 52px or decrease to 36px if it looks too big/small. */
-  height: 46px;
-  width: auto;
-  object-fit: contain;
-  transition: filter 0.2s, transform 0.2s;
+.nav__logo-link:hover .wordmark__name {
+  text-shadow: 0 0 28px rgba(255, 166, 38, 0.65);
 }
 
-.nav__logo-link:hover .nav__logo-img {
-  filter: drop-shadow(0 0 8px rgba(255, 166, 38, 0.6));
-  transform: scale(1.05);
+.nav__logo-link:hover .wordmark__tag {
+  color: rgba(255, 166, 38, 0.85);
 }
 
 
@@ -261,44 +255,157 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
    HERO
    ---------------------------------------------------------------- */
 .hero {
+  position: relative;
+  overflow: hidden;
   padding-block: var(--space-2xl) calc(var(--space-2xl) * 1.2);
-  /* Deep green with a subtle lighter-green radial glow for depth */
   background: radial-gradient(ellipse at 15% 60%, var(--color-green-light) 0%, var(--color-green) 65%);
   color: var(--color-text-on-dark);
   border-bottom: 1px solid var(--color-border-dark);
 }
 
+/* Slow-drifting orange orb — keeps the hero from feeling static */
+.hero::before {
+  content: '';
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 166, 38, 0.09) 0%, transparent 65%);
+  top: -220px;
+  right: -100px;
+  animation: hero-orb 10s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Second depth orb */
+.hero::after {
+  content: '';
+  position: absolute;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(36, 92, 28, 0.55) 0%, transparent 70%);
+  bottom: -80px;
+  left: 40%;
+  animation: hero-orb2 13s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes hero-orb {
+  0%   { transform: translate(0, 0) scale(1);         opacity: 0.6; }
+  100% { transform: translate(-60px, 50px) scale(1.3); opacity: 1;   }
+}
+
+@keyframes hero-orb2 {
+  0%   { transform: translate(0, 0);                       opacity: 0.35; }
+  100% { transform: translate(35px, -40px) scale(0.8); opacity: 0.6;  }
+}
+
 .hero__inner {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   max-width: 720px;
 }
 
-/* Wordmark logo in hero */
-.hero__logo-wrap {
+/* ----------------------------------------------------------------
+   TEXT-BASED WORDMARK LOGO
+   Replaces the PNG everywhere — transparent background, no box.
+   Font: Poppins ExtraBold (weight 800) from Google Fonts.
+   ---------------------------------------------------------------- */
+.wordmark {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+  text-decoration: none;
+  user-select: none;
+}
+
+.wordmark__name {
+  font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  color: var(--color-orange);
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+  display: block;
+  transition: text-shadow 0.25s;
+}
+
+.wordmark__tag {
+  font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  color: rgba(255, 166, 38, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  display: block;
+  transition: color 0.25s;
+}
+
+/* Nav size */
+.nav-wordmark .wordmark__name { font-size: 1.55rem; }
+.nav-wordmark .wordmark__tag  { font-size: 0.4rem; margin-top: 0.25em; }
+
+/* Hero size — large, glows after entrance animation completes */
+.hero-wordmark {
   margin-bottom: var(--space-md);
 }
 
-.hero__logo {
-  /* Wordmark is roughly square; adjust these values if it looks too large/small.
-     Width is capped so it doesn't exceed the hero text column width. */
-  width: clamp(100px, 22vw, 150px);
-  height: auto;
-  object-fit: contain;
-  /* Gentle breathing glow — orange drop-shadow pulses */
-  animation: logo-breathe 4s ease-in-out infinite;
+.hero-wordmark .wordmark__name {
+  font-size: clamp(3.5rem, 9vw, 5.5rem);
+  animation: name-glow 3.5s ease-in-out infinite;
+  animation-delay: 1.8s;
 }
 
-@keyframes logo-breathe {
+/* Each letter is an inline-block so GSAP can stagger them */
+.wm-letter {
+  display: inline-block;
+}
+
+/* Footer size */
+.footer-wordmark .wordmark__name {
+  font-size: 1.85rem;
+}
+
+/* Hover glow on nav and footer logos */
+.nav__logo-link:hover .wordmark__name,
+.footer__logo-link:hover .wordmark__name {
+  text-shadow: 0 0 28px rgba(255, 166, 38, 0.65);
+}
+
+/* Continuous glow pulse on hero logo (starts after GSAP entrance finishes) */
+@keyframes name-glow {
   0%, 100% {
-    filter: drop-shadow(0 4px 14px rgba(255, 166, 38, 0.35));
-    transform: scale(1);
+    text-shadow:
+      0 0 20px rgba(255, 166, 38, 0.2),
+      0 2px 6px rgba(0, 0, 0, 0.2);
   }
   50% {
-    filter: drop-shadow(0 6px 26px rgba(255, 166, 38, 0.6));
-    transform: scale(1.04);
+    text-shadow:
+      0 0 60px rgba(255, 166, 38, 0.8),
+      0 0 120px rgba(255, 166, 38, 0.25),
+      0 2px 6px rgba(0, 0, 0, 0.2);
   }
+}
+
+/* Pulsing ring on hero CTA — draws the eye after everything loads in */
+@keyframes cta-pulse {
+  0%   { box-shadow: 0 6px 24px rgba(255, 166, 38, 0.45), 0 0 0 0 rgba(255, 166, 38, 0.38); }
+  70%  { box-shadow: 0 6px 24px rgba(255, 166, 38, 0.45), 0 0 0 16px rgba(255, 166, 38, 0);   }
+  100% { box-shadow: 0 6px 24px rgba(255, 166, 38, 0.45), 0 0 0 0 rgba(255, 166, 38, 0);   }
+}
+
+.hero .btn--primary {
+  animation: cta-pulse 2.8s ease-out infinite;
+  animation-delay: 2.5s;
+}
+
+.hero .btn--primary:hover {
+  animation: none;
 }
 
 .hero__badge {
@@ -363,9 +470,9 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
 }
 
 .card:hover {
-  box-shadow: var(--shadow-hover);
-  transform: translateY(-5px);
-  border-color: rgba(255, 166, 38, 0.45);
+  box-shadow: 0 14px 48px rgba(255, 166, 38, 0.24);
+  transform: translateY(-8px) scale(1.01);
+  border-color: rgba(255, 166, 38, 0.5);
 }
 
 .card__icon {
@@ -416,12 +523,14 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
   border: 1px solid var(--color-border-dark);
   border-radius: var(--radius-md);
   padding: var(--space-lg) var(--space-md);
-  transition: background 0.2s, border-color 0.2s;
+  transition: background 0.25s, border-color 0.25s, transform 0.25s, box-shadow 0.25s;
 }
 
 .step:hover {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 166, 38, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 166, 38, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(255, 166, 38, 0.12);
 }
 
 .step__number {
@@ -514,10 +623,10 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
 }
 
 .plan:hover {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 166, 38, 0.4);
-  box-shadow: 0 8px 32px rgba(255, 166, 38, 0.15);
-  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 166, 38, 0.5);
+  box-shadow: 0 16px 48px rgba(255, 166, 38, 0.22);
+  transform: translateY(-6px);
 }
 
 /* Featured plan — orange border glow */
@@ -783,20 +892,11 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
 
 .footer__logo-link {
   display: inline-block;
-  transition: filter 0.2s, transform 0.2s;
+  transition: opacity 0.2s;
 }
 
-.footer__logo-link:hover {
-
-  filter: drop-shadow(0 0 10px rgba(255, 166, 38, 0.5));
-  transform: scale(1.05);
-}
-
-.footer__logo-img {
-  /* Wordmark in footer — adjust height to taste */
-  height: 60px;
-  width: auto;
-  object-fit: contain;
+.footer__logo-link:hover .wordmark__name {
+  text-shadow: 0 0 28px rgba(255, 166, 38, 0.65);
 }
 
 .footer__tagline {
@@ -845,7 +945,7 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
 @media (max-width: 380px) {
   .hero__ctas { flex-direction: column; }
   .btn--lg { width: 100%; }
-  .hero__logo { width: 80px; }
+  .hero-wordmark .wordmark__name { font-size: 2.8rem; }
 }
 
 @media (max-width: 480px) {
@@ -865,11 +965,10 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
     scroll-behavior: auto !important;
   }
 
-  /* Specifically cancel the logo breathing animation */
-  .hero__logo {
-    animation: none !important;
-    filter: drop-shadow(0 4px 14px rgba(255, 166, 38, 0.35));
-  }
+  /* Cancel all custom animations */
+  .hero::before, .hero::after           { animation: none !important; }
+  .hero-wordmark .wordmark__name        { animation: none !important; }
+  .hero .btn--primary                   { animation: none !important; }
 
   /* AOS detects this media query automatically and disables itself */
 }

@@ -36,19 +36,21 @@
   /* Bail if user has requested reduced motion */
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  /* Build a staggered timeline — each element animates after the previous */
-  var tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+  /* Letters stagger in one by one, then the rest of the hero follows */
+  var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-  tl.from('.hero__logo', {
+  tl.from('.wm-letter', {
     opacity: 0,
-    scale: 0.75,
-    duration: 0.8,
-    ease: 'back.out(1.4)',
-    delay: 0.1
+    y: 36,
+    scale: 0.7,
+    duration: 0.52,
+    stagger: 0.055,
+    ease: 'back.out(1.8)',
+    delay: 0.2
   })
-  .from('.hero__badge', { opacity: 0, y: 18, duration: 0.55 }, '-=0.3')
-  .from('.hero__headline', { opacity: 0, y: 28, duration: 0.65 }, '-=0.3')
-  .from('.hero__sub',      { opacity: 0, y: 20, duration: 0.55 }, '-=0.35')
+  .from('.hero__badge',    { opacity: 0, y: 16, duration: 0.45 }, '-=0.15')
+  .from('.hero__headline', { opacity: 0, y: 32, duration: 0.65, ease: 'power3.out' }, '-=0.25')
+  .from('.hero__sub',      { opacity: 0, y: 22, duration: 0.55 }, '-=0.3')
   .from('.hero__ctas',     { opacity: 0, y: 18, duration: 0.5  }, '-=0.3');
 })();
 
@@ -63,10 +65,10 @@ document.addEventListener('DOMContentLoaded', function () {
   if (typeof AOS === 'undefined') return;
 
   AOS.init({
-    duration: 600,          /* animation length in ms              */
-    easing:   'ease-out-quad',
+    duration: 680,          /* animation length in ms              */
+    easing:   'ease-out-cubic',
     once:     true,         /* animate once per element            */
-    offset:   80,           /* trigger 80px before element enters  */
+    offset:   60,           /* trigger a little earlier            */
     disable:  window.matchMedia('(prefers-reduced-motion: reduce)').matches
   });
 });
