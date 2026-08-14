@@ -6,10 +6,16 @@
   <meta name="description" content="Postful — social media management for restaurants and cafes. We handle your Instagram and Facebook so you can focus on what matters." />
   <title>Postful — Social Media Management for Restaurants &amp; Cafes</title>
 
+  <!-- Favicon — uses the badge logo -->
+  <link rel="icon" type="image/png" href="images/logo-badge.png" />
+
   <!-- Google Fonts: Plus Jakarta Sans (body) + Fraunces (headings) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- AOS (Animate On Scroll) — scroll-reveal library, ~13KB -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -20,8 +26,11 @@
        ============================================= -->
   <header class="site-header" id="top">
     <nav class="nav container">
-      <!-- EDIT: Change "Postful" to update the brand name in the nav -->
-      <a href="#top" class="nav__logo">Postful</a>
+
+      <!-- Badge logo in nav — EDIT: swap src if you rename the file -->
+      <a href="#top" class="nav__logo-link" aria-label="Postful — back to top">
+        <img src="images/logo-badge.png" alt="Postful" class="nav__logo-img" width="44" height="44" />
+      </a>
 
       <a href="#contact" class="btn btn--primary">Get in Touch</a>
     </nav>
@@ -33,6 +42,14 @@
        ============================================= -->
   <section class="hero">
     <div class="container hero__inner">
+
+      <!-- Badge logo displayed large in the hero — links back to top -->
+      <div class="hero__logo-wrap">
+        <a href="#top" aria-label="Postful home">
+          <img src="images/logo-badge.png" alt="Postful badge logo" class="hero__logo" width="140" height="140" />
+        </a>
+      </div>
+
       <div class="hero__badge">Social Media for Restaurants &amp; Cafes</div>
 
       <!-- EDIT: Change the headline and sub-headline below -->
@@ -47,7 +64,7 @@
 
       <div class="hero__ctas">
         <a href="#contact" class="btn btn--primary btn--lg">Start the Conversation</a>
-        <a href="#how-it-works" class="btn btn--ghost btn--lg">See How It Works</a>
+        <a href="#how-it-works" class="btn btn--ghost-light btn--lg">See How It Works</a>
       </div>
     </div>
   </section>
@@ -58,15 +75,14 @@
        ============================================= -->
   <section class="services section" id="services">
     <div class="container">
-      <h2 class="section__title">What Postful Does for You</h2>
-      <p class="section__sub">Three things — done properly, every single month.</p>
+      <h2 class="section__title" data-aos="fade-up">What Postful Does for You</h2>
+      <p class="section__sub" data-aos="fade-up" data-aos-delay="80">Three things — done properly, every single month.</p>
 
       <div class="cards">
 
         <!-- Card 1 -->
-        <div class="card">
+        <div class="card" data-aos="fade-up" data-aos-delay="0">
           <div class="card__icon" aria-hidden="true">
-            <!-- Camera / content icon -->
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="7" width="20" height="14" rx="2"/>
               <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
@@ -80,9 +96,8 @@
         </div>
 
         <!-- Card 2 -->
-        <div class="card">
+        <div class="card" data-aos="fade-up" data-aos-delay="120">
           <div class="card__icon" aria-hidden="true">
-            <!-- Calendar / scheduling icon -->
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="4" width="18" height="18" rx="2"/>
               <line x1="16" y1="2" x2="16" y2="6"/>
@@ -99,9 +114,8 @@
         </div>
 
         <!-- Card 3 -->
-        <div class="card">
+        <div class="card" data-aos="fade-up" data-aos-delay="240">
           <div class="card__icon" aria-hidden="true">
-            <!-- Chart / report icon -->
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <line x1="18" y1="20" x2="18" y2="10"/>
               <line x1="12" y1="20" x2="12" y2="4"/>
@@ -125,12 +139,12 @@
        ============================================= -->
   <section class="how section section--dark" id="how-it-works">
     <div class="container">
-      <h2 class="section__title">How It Works</h2>
-      <p class="section__sub">Simple three-step process — from first conversation to results.</p>
+      <h2 class="section__title" data-aos="fade-up">How It Works</h2>
+      <p class="section__sub" data-aos="fade-up" data-aos-delay="80">Simple three-step process — from first conversation to results.</p>
 
       <div class="steps">
 
-        <div class="step">
+        <div class="step" data-aos="fade-up" data-aos-delay="0">
           <div class="step__number" aria-hidden="true">01</div>
           <h3 class="step__title">We Have a Quick Chat</h3>
           <p class="step__body">
@@ -140,7 +154,7 @@
 
         <div class="step__divider" aria-hidden="true"></div>
 
-        <div class="step">
+        <div class="step" data-aos="fade-up" data-aos-delay="150">
           <div class="step__number" aria-hidden="true">02</div>
           <h3 class="step__title">I Create &amp; Schedule Your Content</h3>
           <p class="step__body">
@@ -150,7 +164,7 @@
 
         <div class="step__divider" aria-hidden="true"></div>
 
-        <div class="step">
+        <div class="step" data-aos="fade-up" data-aos-delay="300">
           <div class="step__number" aria-hidden="true">03</div>
           <h3 class="step__title">You See Results</h3>
           <p class="step__body">
@@ -169,34 +183,34 @@
   <section class="trust section" id="about">
     <div class="container trust__inner">
 
-      <div class="trust__text">
+      <div class="trust__text" data-aos="fade-right">
         <h2 class="section__title section__title--left">Why Restaurant Owners Choose Postful</h2>
         <ul class="trust__list">
-          <li class="trust__item">
+          <li class="trust__item" data-aos="fade-right" data-aos-delay="0">
             <span class="trust__check" aria-hidden="true">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </span>
             <span><strong>No long lock-in contracts.</strong> Month-to-month — stay because you're happy, not because you're trapped.</span>
           </li>
-          <li class="trust__item">
+          <li class="trust__item" data-aos="fade-right" data-aos-delay="75">
             <span class="trust__check" aria-hidden="true">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </span>
             <span><strong>You keep full ownership of your accounts.</strong> Always. I'm a manager, not a gatekeeper — passwords and pages stay yours.</span>
           </li>
-          <li class="trust__item">
+          <li class="trust__item" data-aos="fade-right" data-aos-delay="150">
             <span class="trust__check" aria-hidden="true">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </span>
             <span><strong>Transparent monthly reporting.</strong> No mystery metrics. You'll always know exactly what your pages are doing and why.</span>
           </li>
-          <li class="trust__item">
+          <li class="trust__item" data-aos="fade-right" data-aos-delay="225">
             <span class="trust__check" aria-hidden="true">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </span>
             <span><strong>One point of contact.</strong> You deal with me directly — not a team of strangers who don't know your restaurant.</span>
           </li>
-          <li class="trust__item">
+          <li class="trust__item" data-aos="fade-right" data-aos-delay="300">
             <span class="trust__check" aria-hidden="true">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </span>
@@ -206,7 +220,7 @@
       </div>
 
       <!-- Testimonials placeholder -->
-      <div class="testimonials">
+      <div class="testimonials" data-aos="fade-left" data-aos-delay="100">
         <h3 class="testimonials__title">What Clients Say</h3>
 
         <!-- EDIT: Replace these placeholder testimonials with real ones when you have them -->
@@ -232,15 +246,15 @@
        ============================================= -->
   <section class="pricing section section--dark" id="pricing">
     <div class="container">
-      <h2 class="section__title">Simple, Transparent Pricing</h2>
-      <p class="section__sub">No hidden fees. Cancel anytime.</p>
+      <h2 class="section__title" data-aos="fade-up">Simple, Transparent Pricing</h2>
+      <p class="section__sub" data-aos="fade-up" data-aos-delay="80">No hidden fees. Cancel anytime.</p>
 
       <div class="pricing__grid">
 
         <!-- EDIT: Update plan names, prices, and features below -->
 
         <!-- Basic plan -->
-        <div class="plan">
+        <div class="plan" data-aos="fade-up" data-aos-delay="0">
           <div class="plan__header">
             <h3 class="plan__name">Basic</h3>
             <!-- EDIT: Change the price -->
@@ -258,7 +272,7 @@
         </div>
 
         <!-- Standard plan — highlighted as recommended -->
-        <div class="plan plan--featured">
+        <div class="plan plan--featured" data-aos="fade-up" data-aos-delay="120">
           <div class="plan__badge">Most Popular</div>
           <div class="plan__header">
             <h3 class="plan__name">Standard</h3>
@@ -278,7 +292,7 @@
         </div>
 
         <!-- Premium plan -->
-        <div class="plan">
+        <div class="plan" data-aos="fade-up" data-aos-delay="240">
           <div class="plan__header">
             <h3 class="plan__name">Premium</h3>
             <!-- EDIT: Change the price -->
@@ -299,7 +313,7 @@
 
       </div>
 
-      <p class="pricing__note">Not sure which plan fits? <a href="#contact">Send me a message</a> and we'll figure it out together.</p>
+      <p class="pricing__note" data-aos="fade-up" data-aos-delay="200">Not sure which plan fits? <a href="#contact">Send me a message</a> and we'll figure it out together.</p>
     </div>
   </section>
 
@@ -310,7 +324,7 @@
   <section class="contact section" id="contact">
     <div class="container contact__inner">
 
-      <div class="contact__text">
+      <div class="contact__text" data-aos="fade-right">
         <h2 class="section__title section__title--left">Let's Talk About Your Restaurant</h2>
         <p class="contact__desc">
           Fill in the form and I'll get back to you within one business day. No sales pitch — just a friendly chat to see if we're a good fit.
@@ -321,7 +335,7 @@
         </p>
       </div>
 
-      <div class="contact__form-wrap">
+      <div class="contact__form-wrap" data-aos="fade-left" data-aos-delay="100">
 
         <!--
           ╔══════════════════════════════════════════════════════════════╗
@@ -413,15 +427,16 @@
     <div class="container footer__inner">
 
       <div class="footer__brand">
-        <!-- EDIT: Update the brand name if needed -->
-        <span class="footer__logo">Postful</span>
+        <!-- Badge logo in footer — EDIT: swap src if you rename the file -->
+        <a href="#top" class="footer__logo-link" aria-label="Back to top">
+          <img src="images/logo-badge.png" alt="Postful" class="footer__logo-img" width="64" height="64" />
+        </a>
         <p class="footer__tagline">Social media management for restaurants &amp; cafes.</p>
       </div>
 
       <div class="footer__links">
         <!-- EDIT: Replace # with your real Instagram/Facebook URLs -->
         <a href="#" class="footer__social" aria-label="Postful on Instagram" title="Instagram">
-          <!-- Instagram icon -->
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="2" width="20" height="20" rx="5"/>
             <circle cx="12" cy="12" r="4"/>
@@ -429,7 +444,6 @@
           </svg>
         </a>
         <a href="#" class="footer__social" aria-label="Postful on Facebook" title="Facebook">
-          <!-- Facebook icon -->
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
           </svg>
@@ -442,13 +456,17 @@
 
     <div class="footer__bottom">
       <div class="container">
-        <!-- EDIT: Update the year if needed — or remove the copyright line -->
+        <!-- EDIT: Update the year if needed -->
         <p>&copy; 2025 Postful. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
 
+  <!-- AOS scroll-reveal library -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <!-- GSAP — used for the hero entrance animation only -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="main.js"></script>
 </body>
 </html>
