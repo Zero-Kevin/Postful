@@ -236,17 +236,18 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
   justify-content: space-between;
 }
 
-/* Badge logo in nav */
+/* Wordmark logo in nav */
 .nav__logo-link {
   display: flex;
   align-items: center;
 }
 
 .nav__logo-img {
-  height: 44px;
+  /* Wordmark is roughly square; height controls overall size in the nav bar.
+     Increase to 52px or decrease to 36px if it looks too big/small. */
+  height: 46px;
   width: auto;
   object-fit: contain;
-  /* Subtle glow on hover */
   transition: filter 0.2s, transform 0.2s;
 }
 
@@ -274,14 +275,16 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
   max-width: 720px;
 }
 
-/* Badge logo in hero */
+/* Wordmark logo in hero */
 .hero__logo-wrap {
   margin-bottom: var(--space-md);
 }
 
 .hero__logo {
-  width: 120px;
-  height: 120px;
+  /* Wordmark is roughly square; adjust these values if it looks too large/small.
+     Width is capped so it doesn't exceed the hero text column width. */
+  width: clamp(100px, 22vw, 150px);
+  height: auto;
   object-fit: contain;
   /* Gentle breathing glow — orange drop-shadow pulses */
   animation: logo-breathe 4s ease-in-out infinite;
@@ -485,108 +488,6 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
     align-self: center;
     margin: 0;
   }
-}
-
-
-/* ----------------------------------------------------------------
-   WHY POSTFUL / TRUST
-   ---------------------------------------------------------------- */
-.trust__inner {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-xl);
-}
-
-@media (min-width: 768px) {
-  .trust__inner {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
-  }
-}
-
-.trust__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  margin-top: var(--space-lg);
-}
-
-.trust__item {
-  display: flex;
-  gap: var(--space-sm);
-  align-items: flex-start;
-  font-size: 0.97rem;
-  line-height: 1.6;
-  color: var(--color-text);
-}
-
-.trust__check {
-  flex-shrink: 0;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background-color: rgba(255, 166, 38, 0.12);
-  color: var(--color-orange);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 2px;
-  transition: background-color 0.2s;
-}
-
-.trust__item:hover .trust__check {
-  background-color: rgba(255, 166, 38, 0.22);
-}
-
-/* Testimonials */
-.testimonials {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.testimonials__title {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: var(--space-xs);
-}
-
-.testimonial {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-left: 4px solid var(--color-orange);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  padding: var(--space-md);
-  box-shadow: var(--shadow-card);
-  transition: box-shadow 0.2s, transform 0.2s;
-}
-
-.testimonial:hover {
-  box-shadow: var(--shadow-hover);
-  transform: translateX(3px);
-}
-
-.testimonial__quote {
-  font-style: italic;
-  color: var(--color-text);
-  font-size: 0.97rem;
-  margin-bottom: var(--space-xs);
-  line-height: 1.65;
-}
-
-.testimonial__author {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-}
-
-.testimonials__note {
-  font-size: 0.78rem;
-  color: var(--color-text-muted);
-  font-style: italic;
 }
 
 
@@ -886,12 +787,14 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
 }
 
 .footer__logo-link:hover {
+
   filter: drop-shadow(0 0 10px rgba(255, 166, 38, 0.5));
   transform: scale(1.05);
 }
 
 .footer__logo-img {
-  height: 64px;
+  /* Wordmark in footer — adjust height to taste */
+  height: 60px;
   width: auto;
   object-fit: contain;
 }
@@ -942,7 +845,7 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
 @media (max-width: 380px) {
   .hero__ctas { flex-direction: column; }
   .btn--lg { width: 100%; }
-  .hero__logo { width: 90px; height: 90px; }
+  .hero__logo { width: 80px; }
 }
 
 @media (max-width: 480px) {

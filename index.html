@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Postful — social media management for restaurants and cafes. We handle your Instagram and Facebook so you can focus on what matters." />
-  <title>Postful — Social Media Management for Restaurants &amp; Cafes</title>
+  <meta name="description" content="Postful — We Plate Your Posts. Social media management for restaurants and cafes. We handle your Instagram and Facebook so you can focus on what matters." />
+  <title>Postful — We Plate Your Posts</title>
 
-  <!-- Favicon — uses the badge logo -->
-  <link rel="icon" type="image/png" href="images/logo-badge.png" />
+  <!-- Favicon — wordmark logo -->
+  <link rel="icon" type="image/png" href="images/logo-wordmark.png" />
 
   <!-- Google Fonts: Plus Jakarta Sans (body) + Fraunces (headings) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- AOS (Animate On Scroll) — scroll-reveal library, local copy -->
+  <!-- AOS (Animate On Scroll) — local copy -->
   <link rel="stylesheet" href="vendor/aos.css" />
 
   <link rel="stylesheet" href="style.css" />
@@ -27,9 +27,13 @@
   <header class="site-header" id="top">
     <nav class="nav container">
 
-      <!-- Badge logo in nav — EDIT: swap src if you rename the file -->
+      <!--
+        LOGO: wordmark image in nav.
+        File location: images/logo-wordmark.png
+        To swap the image, replace the file at that path with the same name.
+      -->
       <a href="#top" class="nav__logo-link" aria-label="Postful — back to top">
-        <img src="images/logo-badge.png" alt="Postful" class="nav__logo-img" width="44" height="44" />
+        <img src="images/logo-wordmark.png" alt="Postful — We Plate Your Posts" class="nav__logo-img" />
       </a>
 
       <a href="#contact" class="btn btn--primary">Get in Touch</a>
@@ -43,14 +47,12 @@
   <section class="hero">
     <div class="container hero__inner">
 
-      <!-- Badge logo displayed large in the hero — links back to top -->
+      <!-- Wordmark logo, large, in the hero -->
       <div class="hero__logo-wrap">
-        <a href="#top" aria-label="Postful home">
-          <img src="images/logo-badge.png" alt="Postful badge logo" class="hero__logo" width="140" height="140" />
-        </a>
+        <img src="images/logo-wordmark.png" alt="Postful — We Plate Your Posts" class="hero__logo" />
       </div>
 
-      <div class="hero__badge">Social Media for Restaurants &amp; Cafes</div>
+      <div class="hero__badge">We Plate Your Posts</div>
 
       <!-- EDIT: Change the headline and sub-headline below -->
       <h1 class="hero__headline">
@@ -178,70 +180,6 @@
 
 
   <!-- =============================================
-       WHY POSTFUL / TRUST
-       ============================================= -->
-  <section class="trust section" id="about">
-    <div class="container trust__inner">
-
-      <div class="trust__text" data-aos="fade-right">
-        <h2 class="section__title section__title--left">Why Restaurant Owners Choose Postful</h2>
-        <ul class="trust__list">
-          <li class="trust__item" data-aos="fade-right" data-aos-delay="0">
-            <span class="trust__check" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            <span><strong>No long lock-in contracts.</strong> Month-to-month — stay because you're happy, not because you're trapped.</span>
-          </li>
-          <li class="trust__item" data-aos="fade-right" data-aos-delay="75">
-            <span class="trust__check" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            <span><strong>You keep full ownership of your accounts.</strong> Always. I'm a manager, not a gatekeeper — passwords and pages stay yours.</span>
-          </li>
-          <li class="trust__item" data-aos="fade-right" data-aos-delay="150">
-            <span class="trust__check" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            <span><strong>Transparent monthly reporting.</strong> No mystery metrics. You'll always know exactly what your pages are doing and why.</span>
-          </li>
-          <li class="trust__item" data-aos="fade-right" data-aos-delay="225">
-            <span class="trust__check" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            <span><strong>One point of contact.</strong> You deal with me directly — not a team of strangers who don't know your restaurant.</span>
-          </li>
-          <li class="trust__item" data-aos="fade-right" data-aos-delay="300">
-            <span class="trust__check" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            <span><strong>Content approved before it goes live.</strong> Nothing posts without your sign-off.</span>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Testimonials placeholder -->
-      <div class="testimonials" data-aos="fade-left" data-aos-delay="100">
-        <h3 class="testimonials__title">What Clients Say</h3>
-
-        <!-- EDIT: Replace these placeholder testimonials with real ones when you have them -->
-        <div class="testimonial">
-          <p class="testimonial__quote">"Postful took our Instagram from an afterthought to our best source of new customers. I literally had to do nothing."</p>
-          <p class="testimonial__author">— Maria S., Cafe Owner</p>
-        </div>
-
-        <div class="testimonial">
-          <p class="testimonial__quote">"Consistent, professional, and they actually understand the restaurant world. Best investment I made this year."</p>
-          <p class="testimonial__author">— James T., Restaurant Owner</p>
-        </div>
-
-        <p class="testimonials__note">* Placeholder testimonials — replace with real client reviews when available.</p>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- =============================================
        PRICING
        ============================================= -->
   <section class="pricing section section--dark" id="pricing">
@@ -258,7 +196,7 @@
           <div class="plan__header">
             <h3 class="plan__name">Basic</h3>
             <!-- EDIT: Change the price -->
-            <div class="plan__price"><span class="plan__amount">£299</span><span class="plan__period">/mo</span></div>
+            <div class="plan__price"><span class="plan__amount">$299</span><span class="plan__period">/mo</span></div>
           </div>
           <ul class="plan__features">
             <!-- EDIT: Add or remove features -->
@@ -277,7 +215,7 @@
           <div class="plan__header">
             <h3 class="plan__name">Standard</h3>
             <!-- EDIT: Change the price -->
-            <div class="plan__price"><span class="plan__amount">£499</span><span class="plan__period">/mo</span></div>
+            <div class="plan__price"><span class="plan__amount">$599</span><span class="plan__period">/mo</span></div>
           </div>
           <ul class="plan__features">
             <!-- EDIT: Add or remove features -->
@@ -296,7 +234,7 @@
           <div class="plan__header">
             <h3 class="plan__name">Premium</h3>
             <!-- EDIT: Change the price -->
-            <div class="plan__price"><span class="plan__amount">£799</span><span class="plan__period">/mo</span></div>
+            <div class="plan__price"><span class="plan__amount">$1,199</span><span class="plan__period">/mo</span></div>
           </div>
           <ul class="plan__features">
             <!-- EDIT: Add or remove features -->
@@ -329,9 +267,9 @@
         <p class="contact__desc">
           Fill in the form and I'll get back to you within one business day. No sales pitch — just a friendly chat to see if we're a good fit.
         </p>
-        <!-- EDIT: Replace with your real email once you have one -->
+        <!-- EDIT: Update this email if it changes -->
         <p class="contact__email">
-          Or email directly: <a href="mailto:hello@postful.com">hello@postful.com</a>
+          Or email directly: <a href="mailto:postful.social@gmail.com">postful.social@gmail.com</a>
         </p>
       </div>
 
@@ -343,7 +281,7 @@
           ║                                                              ║
           ║  1. Create a free account at https://formspree.io           ║
           ║  2. Click "New Form", give it a name                        ║
-          ║  3. Set your destination email in the Formspree dashboard   ║
+          ║  3. Set destination email to postful.social@gmail.com       ║
           ║  4. Copy the form ID (looks like: xpwzabcd)                 ║
           ║  5. Replace YOUR_FORMSPREE_ID_HERE below with that ID       ║
           ║                                                              ║
@@ -359,7 +297,7 @@
           <!-- Honeypot field — hidden from humans, bots fill it in, stops spam -->
           <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
-          <!-- Redirect back to the page after submit (Formspree handles this) -->
+          <!-- Redirect back to the page after submit -->
           <input type="hidden" name="_next" value="/" />
 
           <div class="form__row">
@@ -385,7 +323,7 @@
 
             <div class="form__group">
               <label for="phone" class="form__label">Phone Number <span class="optional">(optional)</span></label>
-              <input type="tel" id="phone" name="phone" class="form__input" placeholder="+44 7700 000000" autocomplete="tel" />
+              <input type="tel" id="phone" name="phone" class="form__input" placeholder="+1 555 000 0000" autocomplete="tel" />
             </div>
           </div>
 
@@ -427,29 +365,19 @@
     <div class="container footer__inner">
 
       <div class="footer__brand">
-        <!-- Badge logo in footer — EDIT: swap src if you rename the file -->
+        <!--
+          LOGO: wordmark in footer.
+          File: images/logo-wordmark.png
+        -->
         <a href="#top" class="footer__logo-link" aria-label="Back to top">
-          <img src="images/logo-badge.png" alt="Postful" class="footer__logo-img" width="64" height="64" />
+          <img src="images/logo-wordmark.png" alt="Postful" class="footer__logo-img" />
         </a>
-        <p class="footer__tagline">Social media management for restaurants &amp; cafes.</p>
+        <p class="footer__tagline">We Plate Your Posts</p>
       </div>
 
+      <!-- EDIT: Update this email if it changes -->
       <div class="footer__links">
-        <!-- EDIT: Replace # with your real Instagram/Facebook URLs -->
-        <a href="#" class="footer__social" aria-label="Postful on Instagram" title="Instagram">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="2" width="20" height="20" rx="5"/>
-            <circle cx="12" cy="12" r="4"/>
-            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-          </svg>
-        </a>
-        <a href="#" class="footer__social" aria-label="Postful on Facebook" title="Facebook">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-          </svg>
-        </a>
-        <!-- EDIT: Replace with your real email -->
-        <a href="mailto:hello@postful.com" class="footer__email">hello@postful.com</a>
+        <a href="mailto:postful.social@gmail.com" class="footer__email">postful.social@gmail.com</a>
       </div>
 
     </div>
