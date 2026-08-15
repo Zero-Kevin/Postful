@@ -443,9 +443,11 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
   transition: color 0.25s;
 }
 
-/* Nav size */
-.nav-wordmark .wordmark__name { font-size: 1.55rem; }
-.nav-wordmark .wordmark__tag  { font-size: 0.4rem; margin-top: 0.25em; }
+/* Nav size — the base .wordmark__name line-height (0.92) is too tight here and
+   lets the "p" descender drop onto the tagline, so give it a line-height that
+   fully contains the descender and add a little breathing room above the tag. */
+.nav-wordmark .wordmark__name { font-size: 1.55rem; line-height: 1.2; }
+.nav-wordmark .wordmark__tag  { font-size: 0.4rem; margin-top: 0.35rem; }
 
 /* Hero size — large, glows after entrance animation completes */
 .hero-wordmark {
