@@ -57,21 +57,21 @@
 
 /* ----------------------------------------------------------------
    3. AOS — SCROLL REVEAL INIT
-   data-aos attributes on HTML elements do the heavy lifting.
-   'once: true' means each element only animates in once (no repeat
-   on scroll back up), which feels more natural.
+   Called directly (no DOMContentLoaded wrapper needed — this script
+   runs after all HTML is parsed since it's at the end of <body>).
+   prefers-reduced-motion is handled by CSS (transition-duration override),
+   not by disabling AOS, so elements still reveal — just instantly.
    ---------------------------------------------------------------- */
-document.addEventListener('DOMContentLoaded', function () {
+(function () {
   if (typeof AOS === 'undefined') return;
 
   AOS.init({
-    duration: 680,          /* animation length in ms              */
+    duration: 680,
     easing:   'ease-out-cubic',
-    once:     true,         /* animate once per element            */
-    offset:   60,           /* trigger a little earlier            */
-    disable:  window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    once:     true,
+    offset:   60
   });
-});
+})();
 
 
 /* ----------------------------------------------------------------
