@@ -11,24 +11,37 @@
    DESIGN TOKENS (CSS VARIABLES)
    ---------------------------------------------------------------- */
 :root {
-  /* --- Brand colours --- */
-  --color-green:        #1C4815;   /* deep forest green — nav, hero, dark sections, footer */
-  --color-green-light:  #245C1C;   /* slightly lighter green — hero gradient accent       */
-  --color-orange:       #FFA626;   /* warm orange — buttons, headings on dark, icons       */
-  --color-orange-dark:  #E0911A;   /* darker orange — hover states                        */
+  /* ============================================================
+     BRAND PALETTE — edit these to recolour the whole site.
+     Built from your two core colours (green #1C4815 + orange #FFA626)
+     expanded into a warm, layered, restaurant-appropriate system.
+     ============================================================ */
 
-  /* --- Surface colours --- */
-  --color-bg:           #F7F4EE;   /* warm off-white — light section backgrounds           */
-  --color-bg-card:      #FFFFFF;   /* white — card backgrounds                             */
+  /* --- Greens (darkest → brightest) --- */
+  --color-green-deep:   #12300E;   /* darkest forest — footer, bottom of depth gradients   */
+  --color-green:        #1C4815;   /* deep forest (CORE) — nav, hero base, dark sections   */
+  --color-green-mid:    #245C1C;   /* mid green — hero glow, gradient accents              */
+  --color-herb:         #4E8B3A;   /* bright herb green — small accents, 3D highlights     */
+  --color-green-light:  #245C1C;   /* legacy alias kept so older rules still resolve       */
 
-  /* --- Text colours --- */
-  --color-text:         #1A2B19;   /* dark green-black — body text on light sections       */
-  --color-text-muted:   #5A6E58;   /* muted greenish grey — subtitles on light sections    */
-  --color-text-on-dark: #FFFFFF;   /* white — text on green sections                       */
-  --color-text-dim:     rgba(255,255,255,0.65); /* dimmed white — subtitles on green       */
+  /* --- Warm accents (orange + gold) --- */
+  --color-orange:       #FFA626;   /* warm orange (CORE) — primary CTA / accent            */
+  --color-orange-dark:  #E0911A;   /* darker orange — hover / pressed                      */
+  --color-gold:         #E9B44C;   /* muted gold — secondary accent, gradients, highlights */
+
+  /* --- Warm surfaces --- */
+  --color-cream:        #FBF1E2;   /* warm cream — alternating light section (Services)    */
+  --color-bg:           #F7F4EE;   /* off-white — default light background                 */
+  --color-bg-card:      #FFFFFF;   /* white — cards, form panel                            */
+
+  /* --- Text --- */
+  --color-text:         #1A2B19;   /* near-black green — body on light (~14:1 AAA)         */
+  --color-text-muted:   #4F6249;   /* muted green — secondary text on light (~5:1 AA)      */
+  --color-text-on-dark: #FBF3E6;   /* warm cream-white — text on green (~10:1 AAA)         */
+  --color-text-dim:     rgba(251,243,230,0.68); /* dimmed cream — subtitles on green       */
 
   /* --- Borders --- */
-  --color-border:       #DED9D2;   /* warm grey — borders on light sections                */
+  --color-border:       #E4DDCF;   /* warm border on light sections                        */
   --color-border-dark:  rgba(255,166,38,0.18); /* subtle orange tint — borders on green    */
 
   /* --- Form feedback --- */
@@ -36,6 +49,16 @@
   --color-success-bg:   #EAF7F0;
   --color-error:        #C0392B;
   --color-error-bg:     #FDECEA;
+
+  /* ============================================================
+     GRADIENTS — reusable, so depth stays consistent site-wide.
+     ============================================================ */
+  --grad-hero:     radial-gradient(ellipse at 12% 55%, var(--color-green-mid) 0%, var(--color-green) 55%, var(--color-green-deep) 115%);
+  --grad-dark-top: linear-gradient(180deg, var(--color-green) 0%, #183C12 100%);       /* How It Works */
+  --grad-dark-bot: linear-gradient(180deg, #183C12 0%, var(--color-green-deep) 100%);  /* Pricing → footer depth */
+  --grad-light:    linear-gradient(180deg, var(--color-cream) 0%, var(--color-bg) 100%); /* Services warm wash */
+  --grad-cta:      linear-gradient(135deg, var(--color-orange) 0%, var(--color-gold) 100%);
+  --grad-accent-text: linear-gradient(90deg, var(--color-orange) 0%, var(--color-gold) 100%);
 
   /* --- Typography --- */
   --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
@@ -58,7 +81,8 @@
 
   /* --- Shadows --- */
   --shadow-card:  0 2px 16px rgba(28, 72, 21, 0.08);
-  --shadow-hover: 0 8px 32px rgba(255, 166, 38, 0.18);
+  --shadow-hover: 0 14px 44px rgba(255, 166, 38, 0.22);
+  --shadow-gold:  0 10px 40px rgba(233, 180, 76, 0.28);
 }
 
 
@@ -111,6 +135,36 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
   color: var(--color-text-on-dark);
 }
 
+/* ---- Section backgrounds: alternating warmth (light) + descending depth (dark) ----
+   Services gets a warm cream wash; the two dark sections darken as you scroll
+   down (green → deep forest) so the page feels layered rather than flat. */
+.services            { background: var(--grad-light); }
+.section--dark.how   { background: var(--grad-dark-top); }
+.section--dark.pricing { background: var(--grad-dark-bot); }
+
+
+/* ----------------------------------------------------------------
+   SCROLL REVEAL — start state
+   Elements carry the .reveal class; they only start hidden when JS is
+   active (the `.js` prefix). GSAP ScrollTrigger animates them in/out,
+   scrubbed to scroll. If JS is off, nothing is hidden. If reduced-motion
+   is set, the block near the bottom of this file forces them visible.
+   ---------------------------------------------------------------- */
+.js .reveal { opacity: 0; }   /* JS applies the per-variant transform; opacity here prevents any flash */
+
+
+/* ----------------------------------------------------------------
+   SIGNATURE SVG LINE-DRAW (How It Works title flourish)
+   The path length/offset is driven by JS so it "draws" on scroll.
+   ---------------------------------------------------------------- */
+.draw-underline {
+  width: min(300px, 68%);
+  height: 22px;
+  margin: 0 auto var(--space-md);
+}
+.draw-underline svg { width: 100%; height: 100%; overflow: visible; }
+.draw-underline__path { filter: drop-shadow(0 2px 6px rgba(255, 166, 38, 0.35)); }
+
 /* Section headings: dark green on light sections, orange on dark sections */
 .section__title {
   font-family: var(--font-display);
@@ -123,7 +177,12 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
 }
 
 .section--dark .section__title {
+  /* Warm orange→gold gradient text on dark sections (falls back to orange) */
   color: var(--color-orange);
+  background: var(--grad-accent-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .section__title--left {
@@ -171,7 +230,7 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
   color: #1A1A00;
 }
 .btn--primary:hover {
-  background-color: var(--color-orange-dark);
+  background: var(--grad-cta);              /* warm orange→gold shift on hover */
   box-shadow: 0 6px 28px rgba(255, 166, 38, 0.55);
   transform: translateY(-2px) scale(1.02);
 }
@@ -258,58 +317,96 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
   position: relative;
   overflow: hidden;
   padding-block: var(--space-2xl) calc(var(--space-2xl) * 1.2);
-  background: radial-gradient(ellipse at 15% 60%, var(--color-green-light) 0%, var(--color-green) 65%);
+  background: var(--grad-hero);
   color: var(--color-text-on-dark);
   border-bottom: 1px solid var(--color-border-dark);
 }
 
-/* Slow-drifting orange orb — keeps the hero from feeling static */
-.hero::before {
+/* ---- Ambient palette orbs ----
+   Real elements (not pseudo-elements) so GSAP can parallax the OUTER element
+   on scroll, while the inner ::before keeps its gentle ambient drift — the two
+   transforms never fight because they live on different boxes. */
+.hero__orb {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+.hero__orb::before {
   content: '';
   position: absolute;
-  width: 700px;
-  height: 700px;
+  inset: 0;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 166, 38, 0.09) 0%, transparent 65%);
-  top: -220px;
-  right: -100px;
-  animation: hero-orb 10s ease-in-out infinite alternate;
-  pointer-events: none;
-  z-index: 0;
 }
 
-/* Second depth orb */
-.hero::after {
-  content: '';
-  position: absolute;
-  width: 450px;
-  height: 450px;
-  border-radius: 50%;
+.hero__orb--1 { width: 620px; height: 620px; top: -200px; right: -120px; }
+.hero__orb--1::before {
+  background: radial-gradient(circle, rgba(255, 166, 38, 0.14) 0%, transparent 65%);
+  animation: orb-drift-a 11s ease-in-out infinite alternate;
+}
+
+.hero__orb--2 { width: 460px; height: 460px; bottom: -150px; left: -90px; }
+.hero__orb--2::before {
   background: radial-gradient(circle, rgba(36, 92, 28, 0.55) 0%, transparent 70%);
-  bottom: -80px;
-  left: 40%;
-  animation: hero-orb2 13s ease-in-out infinite alternate;
+  animation: orb-drift-b 14s ease-in-out infinite alternate;
+}
+
+.hero__orb--3 { width: 340px; height: 340px; top: 28%; left: 33%; }
+.hero__orb--3::before {
+  background: radial-gradient(circle, rgba(233, 180, 76, 0.12) 0%, transparent 65%);
+  animation: orb-drift-a 16s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes orb-drift-a {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-40px, 44px) scale(1.15); }
+}
+@keyframes orb-drift-b {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(36px, -34px) scale(0.9); }
+}
+
+/* ---- Hero 3D stage (holds the Three.js canvas / SVG fallback) ---- */
+.hero__stage {
+  position: relative;
+  width: 100%;
+  height: clamp(210px, 42vw, 320px);
+  margin-bottom: var(--space-md);
+  z-index: 1;
   pointer-events: none;
-  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
 }
+.hero__stage canvas { display: block; width: 100%; height: 100%; }
 
-@keyframes hero-orb {
-  0%   { transform: translate(0, 0) scale(1);         opacity: 0.6; }
-  100% { transform: translate(-60px, 50px) scale(1.3); opacity: 1;   }
-}
-
-@keyframes hero-orb2 {
-  0%   { transform: translate(0, 0);                       opacity: 0.35; }
-  100% { transform: translate(35px, -40px) scale(0.8); opacity: 0.6;  }
+.hero__fallback {
+  width: clamp(170px, 40vw, 260px);
+  height: auto;
+  filter: drop-shadow(0 20px 34px rgba(0, 0, 0, 0.35));
 }
 
 .hero__inner {
   position: relative;
-  z-index: 1;
+  z-index: 2;                 /* keep text above the 3D stage where they overlap */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   max-width: 720px;
+}
+
+/* On wider screens the 3D sits to the RIGHT of the text instead of above it */
+@media (min-width: 900px) {
+  .hero__stage {
+    position: absolute;
+    top: 0;
+    right: 2%;
+    width: 42%;
+    height: 100%;
+    margin: 0;
+  }
+  .hero__inner { max-width: 620px; }
 }
 
 /* ----------------------------------------------------------------
@@ -537,8 +634,12 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
   font-family: var(--font-display);
   font-size: 2.5rem;
   font-weight: 700;
+  /* Orange→gold gradient numerals (fall back to orange) */
   color: var(--color-orange);
-  opacity: 0.85;
+  background: var(--grad-accent-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-bottom: var(--space-xs);
   line-height: 1;
 }
@@ -629,15 +730,15 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
   transform: translateY(-6px);
 }
 
-/* Featured plan — orange border glow */
+/* Featured plan — orange border with a warm orange+gold glow */
 .plan--featured {
-  background: rgba(255, 166, 38, 0.06);
+  background: rgba(255, 166, 38, 0.07);
   border: 2px solid var(--color-orange);
-  box-shadow: 0 0 48px rgba(255, 166, 38, 0.2);
+  box-shadow: 0 0 48px rgba(255, 166, 38, 0.18), var(--shadow-gold);
 }
 
 .plan--featured:hover {
-  box-shadow: 0 8px 48px rgba(255, 166, 38, 0.32);
+  box-shadow: 0 10px 52px rgba(255, 166, 38, 0.34), var(--shadow-gold);
 }
 
 .plan__badge {
@@ -870,8 +971,8 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
    FOOTER
    ---------------------------------------------------------------- */
 .footer {
-  /* Slightly darker green for the footer to anchor the page */
-  background-color: #122D0F;
+  /* Darkest forest green to anchor the bottom of the page */
+  background-color: var(--color-green-deep);
   color: var(--color-text-dim);
 }
 
@@ -965,10 +1066,15 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
     scroll-behavior: auto !important;
   }
 
-  /* Cancel all custom animations */
-  .hero::before, .hero::after           { animation: none !important; }
-  .hero-wordmark .wordmark__name        { animation: none !important; }
-  .hero .btn--primary                   { animation: none !important; }
+  /* Cancel all custom ambient animations */
+  .hero__orb::before             { animation: none !important; }
+  .hero-wordmark .wordmark__name { animation: none !important; }
+  .hero .btn--primary            { animation: none !important; }
 
-  /* AOS detects this media query automatically and disables itself */
+  /* Scroll-reveal elements must be fully visible (main.js also skips its
+     ScrollTrigger setup when reduced motion is requested). */
+  .reveal { opacity: 1 !important; transform: none !important; }
+
+  /* main.js does not initialise the 3D scene under reduced motion,
+     so the static SVG cloche fallback stays on screen. */
 }
