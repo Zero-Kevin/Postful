@@ -2,11 +2,11 @@
    POSTFUL — main.js
    ================================================================
    1. NAV      : sticky scroll-shadow
-   2. HERO     : GSAP letter-stagger entrance (on load)
-   3. SCROLL   : GSAP ScrollTrigger scrub — reveals, parallax,
-                 hero transition, and the SVG line-draw
-   4. 3D       : Three.js low-poly "cloche" in the hero, with a
-                 graceful static fallback
+   2. HERO     : GSAP letter-stagger entrance + graphic reveal (on load)
+   3. SCROLL   : GSAP ScrollTrigger scrub — reveals, orb parallax,
+                 and the SVG line-draw
+   4. HERO GFX : premium SVG cloche — ambient loops + multi-layer
+                 scroll parallax (lighter on mobile, off for reduced motion)
    5. FORM     : validation + Formspree submission + honeypot
    ----------------------------------------------------------------
    Every motion respects prefers-reduced-motion. Libraries are loaded
@@ -15,10 +15,10 @@
    ================================================================ */
 
 /* ---------- Capability flags (computed once) ---------- */
-var REDUCED   = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-var HAS_GSAP  = typeof gsap !== 'undefined';
-var HAS_ST    = HAS_GSAP && typeof ScrollTrigger !== 'undefined';
-var HAS_THREE = typeof THREE !== 'undefined';
+var REDUCED  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var HAS_GSAP = typeof gsap !== 'undefined';
+var HAS_ST   = HAS_GSAP && typeof ScrollTrigger !== 'undefined';
+var IS_MOBILE = window.matchMedia('(max-width: 767px)').matches;
 
 if (HAS_ST) { gsap.registerPlugin(ScrollTrigger); }
 
@@ -49,6 +49,8 @@ if (HAS_ST) { gsap.registerPlugin(ScrollTrigger); }
       duration: 0.52, stagger: 0.055,
       ease: 'back.out(1.8)', delay: 0.2
     })
+    /* The graphic scales + fades in alongside the wordmark (concurrent, pos 0.2) */
+    .from('.hero__stage', { opacity: 0, scale: 0.9, y: 24, duration: 0.9, ease: 'power3.out' }, 0.2)
     .from('.hero__badge',    { opacity: 0, y: 16, duration: 0.45 }, '-=0.15')
     .from('.hero__headline', { opacity: 0, y: 32, duration: 0.65 }, '-=0.25')
     .from('.hero__sub',      { opacity: 0, y: 22, duration: 0.55 }, '-=0.30')
@@ -98,15 +100,9 @@ function showAllReveals() {
     });
   });
 
-  /* -- 3b. Hero transition --
-     As you scroll out of the hero, the text drifts up and fades. */
-  gsap.to('.hero__inner', {
-    yPercent: 16, opacity: 0.25, ease: 'none',
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
-  });
-
-  /* -- 3c. Parallax accents --
-     Orbs and the 3D stage move at their own speeds for depth (data-parallax). */
+  /* -- 3b. Parallax accents --
+     The background orbs drift at their own speeds for depth (data-parallax).
+     (The hero text + graphic parallax is handled in section 4.) */
   document.querySelectorAll('[data-parallax]').forEach(function (el) {
     var speed = parseFloat(el.getAttribute('data-parallax')) || 0.15;
     gsap.to(el, {
@@ -115,7 +111,7 @@ function showAllReveals() {
     });
   });
 
-  /* -- 3d. Signature SVG line-draw (How It Works) --
+  /* -- 3c. Signature SVG line-draw (How It Works) --
      The path draws itself as the section scrolls through the viewport. */
   var path = document.querySelector('.draw-underline__path');
   if (path && typeof path.getTotalLength === 'function') {
@@ -133,173 +129,62 @@ function showAllReveals() {
 
 
 /* ================================================================
-   4. HERO 3D — Three.js low-poly cloche (food dome)
-   On-brand colours, lightweight, pauses when off-screen or the tab is
-   hidden, and reacts gently to cursor + scroll. Falls back to the inline
-   SVG cloche whenever 3D is unavailable or reduced motion is requested.
+   4. HERO GRAPHIC — premium SVG cloche
+   Two kinds of motion:
+   (a) Ambient loops that always run (float, steam, ring, sparkles, chips).
+   (b) Scroll-linked parallax where each layer moves at its own speed for
+       depth, tied directly to scroll position (scrub:true).
+   Mobile runs a lighter subset; reduced motion leaves the SVG fully static.
    ================================================================ */
 (function () {
-  var stage = document.getElementById('hero-stage');
-  if (!stage) return;
-  var fallback = stage.querySelector('.hero__fallback');
+  var svg = document.getElementById('hero-graphic');
+  if (!svg || !HAS_GSAP) return;   /* no GSAP → the SVG simply stays static */
+  if (REDUCED) return;             /* reduced motion → no animation at all  */
 
-  /* ---- Fallback gates: keep the static SVG, skip 3D ---- */
-  if (REDUCED) return;                                              /* honour reduced motion    */
-  if (!HAS_THREE) return;                                           /* three.js didn't load     */
-  if (navigator.deviceMemory && navigator.deviceMemory < 4) return; /* low-RAM device           */
-  try {
-    var probe = document.createElement('canvas');
-    var gl = probe.getContext('webgl') || probe.getContext('experimental-webgl');
-    if (!gl) return;                                                /* no WebGL support         */
-  } catch (e) { return; }
+  /* -------- (a) Continuous ambient loops (GPU transforms/opacity only) -------- */
 
-  var scene, camera, renderer, group;
-  var frameId = null, running = false, visible = true;
-  var pointerX = 0, pointerY = 0, scrollTilt = 0;
+  /* Whole graphic gently floats (on the wrap, so it never fights the parallax
+     that moves the stage). */
+  gsap.to('.hero__graphic-wrap', {
+    y: -14, duration: 3.4, ease: 'sine.inOut', repeat: -1, yoyo: true
+  });
 
-  try {
-    initScene();
-  } catch (err) {
-    /* Anything unexpected → tear down and leave the SVG fallback visible. */
-    if (renderer && renderer.domElement && renderer.domElement.parentNode) {
-      renderer.domElement.parentNode.removeChild(renderer.domElement);
-    }
-    if (fallback) fallback.style.display = '';
+  /* Steam wisps rise and fade, each slightly offset. */
+  gsap.utils.toArray('.hg-steam__wisp').forEach(function (wisp, i) {
+    gsap.fromTo(wisp,
+      { y: 8, opacity: 0.05 },
+      { y: -20, opacity: 0.30, duration: 2.6 + i * 0.4,
+        ease: 'sine.out', repeat: -1, yoyo: true, delay: i * 0.6 });
+  });
+
+  /* Desktop-only extras — kept off mobile so it stays light and smooth. */
+  if (!IS_MOBILE) {
+    gsap.to('.hg-ring',    { rotation: 360, svgOrigin: '240 264', duration: 52, ease: 'none', repeat: -1 });
+    gsap.to('.hg-sparkle', { opacity: 0.25, duration: 1.5, ease: 'sine.inOut', repeat: -1, yoyo: true, stagger: 0.5 });
+    gsap.to('.hg-chip',    { y: -9, duration: 2.8, ease: 'sine.inOut', repeat: -1, yoyo: true, stagger: 0.6 });
+  }
+
+  /* -------- (b) Scroll-linked parallax (needs ScrollTrigger) -------- */
+  if (!HAS_ST) return;
+
+  if (IS_MOBILE) {
+    /* Light version: text + whole graphic drift at different speeds. */
+    gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } })
+      .to('.hero__content', { yPercent: 6,  opacity: 0.5, ease: 'none' }, 0)
+      .to('.hero__stage',   { yPercent: 14, ease: 'none' }, 0);
     return;
   }
 
-  function initScene() {
-    var w = stage.clientWidth  || 320;
-    var h = stage.clientHeight || 280;
-
-    scene  = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(38, w / h, 0.1, 100);
-    camera.position.set(0, 0.6, 7.4);
-
-    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2)); /* cap DPR for mobile perf */
-    renderer.setSize(w, h);
-    stage.appendChild(renderer.domElement);
-
-    /* 3D is live — hide the static SVG fallback. */
-    if (fallback) fallback.style.display = 'none';
-
-    group = new THREE.Group();
-    scene.add(group);
-
-    /* ---- On-brand materials ---- */
-    var domeMat  = new THREE.MeshStandardMaterial({ color: 0x245C1C, metalness: 0.35, roughness: 0.35, emissive: 0x0c2a08, emissiveIntensity: 0.4 });
-    var orangeMat= new THREE.MeshStandardMaterial({ color: 0xFFA626, metalness: 0.5,  roughness: 0.25, emissive: 0x3a2400, emissiveIntensity: 0.35 });
-    var goldMat  = new THREE.MeshStandardMaterial({ color: 0xE9B44C, metalness: 0.55, roughness: 0.30 });
-    var plateMat = new THREE.MeshStandardMaterial({ color: 0xFBF3E6, metalness: 0.15, roughness: 0.60 });
-    var herbMat  = new THREE.MeshStandardMaterial({ color: 0x4E8B3A, metalness: 0.30, roughness: 0.40 });
-
-    /* ---- Plate (flat disc) + gold rim ---- */
-    var plate = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 0.18, 48), plateMat);
-    plate.position.y = -1.35;
-    group.add(plate);
-
-    var rim = new THREE.Mesh(new THREE.TorusGeometry(2.5, 0.09, 16, 48), goldMat);
-    rim.rotation.x = Math.PI / 2;
-    rim.position.y = -1.26;
-    group.add(rim);
-
-    /* ---- Cloche dome (top half of a sphere) + herb-green base band ---- */
-    var dome = new THREE.Mesh(
-      new THREE.SphereGeometry(1.9, 40, 22, 0, Math.PI * 2, 0, Math.PI / 2),
-      domeMat
-    );
-    dome.position.y = -1.26;
-    group.add(dome);
-
-    var band = new THREE.Mesh(new THREE.TorusGeometry(1.9, 0.05, 12, 48), herbMat);
-    band.rotation.x = Math.PI / 2;
-    band.position.y = -1.20;
-    group.add(band);
-
-    /* ---- Stem + knob (the little handle on top) ---- */
-    var stem = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.28, 12), goldMat);
-    stem.position.y = 0.72;
-    group.add(stem);
-
-    var knob = new THREE.Mesh(new THREE.SphereGeometry(0.20, 20, 16), orangeMat);
-    knob.position.y = 0.92;
-    group.add(knob);
-
-    group.rotation.x = 0.16;  /* gentle 3/4 tilt */
-
-    /* ---- Lighting: warm key, orange fill, herb rim ---- */
-    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
-
-    var key = new THREE.DirectionalLight(0xfff1dc, 1.15);
-    key.position.set(3, 5, 4);
-    scene.add(key);
-
-    var warm = new THREE.PointLight(0xffa626, 0.9, 30);
-    warm.position.set(-4, 1, 3);
-    scene.add(warm);
-
-    var rimLight = new THREE.DirectionalLight(0x4e8b3a, 0.5);
-    rimLight.position.set(-2, -1, -3);
-    scene.add(rimLight);
-
-    /* ---- Cursor parallax (desktop; no-op on touch) ---- */
-    window.addEventListener('pointermove', function (e) {
-      pointerX = (e.clientX / window.innerWidth)  * 2 - 1;
-      pointerY = (e.clientY / window.innerHeight) * 2 - 1;
-    }, { passive: true });
-
-    /* ---- Scroll tilt (ties the object to scroll position) ---- */
-    if (HAS_ST) {
-      ScrollTrigger.create({
-        trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true,
-        onUpdate: function (self) { scrollTilt = self.progress; }
-      });
-    }
-
-    /* ---- Pause rendering when the hero is off-screen (saves CPU/battery) ---- */
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) {
-        visible = entries[0].isIntersecting;
-        if (visible) start(); else stop();
-      }, { threshold: 0.01 }).observe(stage);
-    }
-
-    /* ---- Pause when the tab is hidden ---- */
-    document.addEventListener('visibilitychange', function () {
-      if (document.hidden) stop();
-      else if (visible) start();
-    });
-
-    window.addEventListener('resize', onResize);
-    start();
-  }
-
-  function onResize() {
-    if (!renderer) return;
-    var w = stage.clientWidth  || 320;
-    var h = stage.clientHeight || 280;
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    renderer.setSize(w, h);
-  }
-
-  function start() { if (!running) { running = true; frameId = requestAnimationFrame(tick); } }
-  function stop()  { running = false; if (frameId) { cancelAnimationFrame(frameId); frameId = null; } }
-
-  function tick() {
-    if (!running) return;
-
-    group.rotation.y += 0.005;                                       /* slow idle spin        */
-
-    var targetX = 0.16 + pointerY * 0.12 + scrollTilt * 0.5;         /* tilt: cursor + scroll */
-    group.rotation.x += (targetX - group.rotation.x) * 0.06;         /* eased for smoothness   */
-    group.position.x += (pointerX * 0.30 - group.position.x) * 0.06; /* subtle cursor parallax */
-    group.position.y = scrollTilt * 0.6;                             /* gentle lift on scroll  */
-
-    renderer.render(scene, camera);
-    frameId = requestAnimationFrame(tick);
-  }
+  /* Desktop: multi-layer parallax. Everything is pinned to the same scrub so
+     the layers move together but at different rates → real depth. */
+  gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } })
+    .to('.hero__content', { yPercent: 10, opacity: 0.35, ease: 'none' }, 0)  /* text drifts up + fades   */
+    .to('.hero__stage',   { yPercent: 24, ease: 'none' }, 0)                 /* graphic drifts faster    */
+    .to('.hg-glow',       { scale: 1.25, opacity: 0.55, transformOrigin: '50% 50%', ease: 'none' }, 0)
+    .to('.hg-dome',       { rotation: -7, svgOrigin: '240 356', ease: 'none' }, 0) /* dome tips back      */
+    .to('.hg-plate',      { yPercent: 5, ease: 'none' }, 0)
+    .to('.hg-chip',       { yPercent: -45, ease: 'none' }, 0)                /* foreground chips lead    */
+    .to('.hg-steam',      { opacity: 0, y: -28, ease: 'none' }, 0);
 })();
 
 

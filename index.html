@@ -51,46 +51,157 @@
     <div class="hero__orb hero__orb--2" data-parallax="0.16" aria-hidden="true"></div>
     <div class="hero__orb hero__orb--3" data-parallax="0.22" aria-hidden="true"></div>
 
-    <!--
-      3D STAGE — a low-poly Three.js "cloche" (food dome) renders into this box.
-      The inline SVG below is the graceful fallback: it shows if 3D can't load,
-      the device is low-powered, or the visitor prefers reduced motion.
-      main.js hides it only once the 3D scene starts successfully.
-    -->
-    <div class="hero__stage" id="hero-stage" data-parallax="0.12" aria-hidden="true">
-      <svg class="hero__fallback" viewBox="0 0 240 210" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Silver cloche on a plate">
-        <ellipse cx="120" cy="162" rx="94" ry="21" fill="#FBF3E6" stroke="#E9B44C" stroke-width="3"/>
-        <ellipse cx="120" cy="158" rx="72" ry="13" fill="none" stroke="rgba(233,180,76,0.55)" stroke-width="2"/>
-        <path d="M52 158 A68 68 0 0 1 188 158 Z" fill="#245C1C" stroke="#4E8B3A" stroke-width="3"/>
-        <path d="M80 142 A50 54 0 0 1 120 100" fill="none" stroke="rgba(251,243,230,0.4)" stroke-width="4" stroke-linecap="round"/>
-        <line x1="120" y1="90" x2="120" y2="80" stroke="#E9B44C" stroke-width="3" stroke-linecap="round"/>
-        <circle cx="120" cy="74" r="9" fill="#FFA626" stroke="#E0911A" stroke-width="2"/>
-      </svg>
-    </div>
-
+    <!-- Responsive GRID: text column + graphic column (stacks to one column on
+         phones). Because the graphic lives in its own grid track it can never be
+         clipped or overlap the text at any width. -->
     <div class="container hero__inner">
 
-      <!-- Text wordmark in hero — letters split for GSAP stagger entrance -->
-      <div class="wordmark hero-wordmark" id="hero-wordmark" aria-label="postful">
-        <div class="wordmark__name" aria-hidden="true"><span class="wm-letter">p</span><span class="wm-letter">o</span><span class="wm-letter">s</span><span class="wm-letter">t</span><span class="wm-letter">f</span><span class="wm-letter">u</span><span class="wm-letter">l</span></div>
+      <!-- LEFT: text content -->
+      <div class="hero__content">
+
+        <!-- Text wordmark — letters split for GSAP stagger entrance -->
+        <div class="wordmark hero-wordmark" id="hero-wordmark" aria-label="postful">
+          <div class="wordmark__name" aria-hidden="true"><span class="wm-letter">p</span><span class="wm-letter">o</span><span class="wm-letter">s</span><span class="wm-letter">t</span><span class="wm-letter">f</span><span class="wm-letter">u</span><span class="wm-letter">l</span></div>
+        </div>
+
+        <div class="hero__badge">We Plate Your Posts</div>
+
+        <!-- EDIT: Change the headline and sub-headline below -->
+        <h1 class="hero__headline">
+          Your Restaurant's Story<br>
+          Deserves to Be Told —<br>
+          <em>Consistently.</em>
+        </h1>
+        <p class="hero__sub">
+          Postful handles your Instagram and Facebook so you can focus on the kitchen, the floor, and your guests. No long contracts. No stress.
+        </p>
+
+        <div class="hero__ctas">
+          <a href="#contact" class="btn btn--primary btn--lg">Start the Conversation</a>
+          <a href="#how-it-works" class="btn btn--ghost-light btn--lg">See How It Works</a>
+        </div>
       </div>
 
-      <div class="hero__badge">We Plate Your Posts</div>
+      <!-- RIGHT: premium SVG "cloche" graphic.
+           Layered groups (glow / ring / steam / plate / dome / chips / sparkles)
+           are parallaxed at different speeds by GSAP for depth. The viewBox makes
+           it scale to fit its column, so it's always fully visible. -->
+      <div class="hero__stage" aria-hidden="true">
+        <div class="hero__graphic-wrap">
+          <svg id="hero-graphic" class="hero__graphic" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <radialGradient id="hgGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%"  stop-color="#FFA626" stop-opacity="0.30"/>
+                <stop offset="55%" stop-color="#E9B44C" stop-opacity="0.10"/>
+                <stop offset="100%" stop-color="#FFA626" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="hgShadow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%"   stop-color="#081A08" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#081A08" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="hgPlate" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%"   stop-color="#FFFFFF"/>
+                <stop offset="38%"  stop-color="#FBF3E6"/>
+                <stop offset="100%" stop-color="#E7D4B4"/>
+              </linearGradient>
+              <linearGradient id="hgGold" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%"   stop-color="#F6CE77"/>
+                <stop offset="50%"  stop-color="#E9B44C"/>
+                <stop offset="100%" stop-color="#C88A22"/>
+              </linearGradient>
+              <linearGradient id="hgDome" x1="0.15" y1="0" x2="0.8" y2="1">
+                <stop offset="0%"   stop-color="#3F9430"/>
+                <stop offset="32%"  stop-color="#1C4815"/>
+                <stop offset="74%"  stop-color="#143810"/>
+                <stop offset="100%" stop-color="#0C280A"/>
+              </linearGradient>
+              <radialGradient id="hgHi" cx="50%" cy="50%" r="50%">
+                <stop offset="0%"   stop-color="#FFFFFF" stop-opacity="0.5"/>
+                <stop offset="70%"  stop-color="#FFFFFF" stop-opacity="0.06"/>
+                <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="hgRimLight" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%"   stop-color="#F4C15D" stop-opacity="0"/>
+                <stop offset="100%" stop-color="#F4C15D" stop-opacity="0.85"/>
+              </linearGradient>
+              <radialGradient id="hgKnob" cx="40%" cy="35%" r="65%">
+                <stop offset="0%"   stop-color="#FFD08A"/>
+                <stop offset="45%"  stop-color="#FFA626"/>
+                <stop offset="100%" stop-color="#B9700F"/>
+              </radialGradient>
+              <linearGradient id="hgRing" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%"   stop-color="#E9B44C" stop-opacity="0.75"/>
+                <stop offset="100%" stop-color="#E9B44C" stop-opacity="0.05"/>
+              </linearGradient>
+            </defs>
 
-      <!-- EDIT: Change the headline and sub-headline below -->
-      <h1 class="hero__headline">
-        Your Restaurant's Story<br>
-        Deserves to Be Told —<br>
-        <em>Consistently.</em>
-      </h1>
-      <p class="hero__sub">
-        Postful handles your Instagram and Facebook so you can focus on the kitchen, the floor, and your guests. No long contracts. No stress.
-      </p>
+            <!-- ambient glow -->
+            <g class="hg-glow"><circle cx="240" cy="252" r="196" fill="url(#hgGlow)"/></g>
 
-      <div class="hero__ctas">
-        <a href="#contact" class="btn btn--primary btn--lg">Start the Conversation</a>
-        <a href="#how-it-works" class="btn btn--ghost-light btn--lg">See How It Works</a>
+            <!-- decorative orbit ring (rotates slowly) -->
+            <g class="hg-ring">
+              <ellipse cx="240" cy="264" rx="196" ry="84" fill="none" stroke="url(#hgRing)" stroke-width="2" stroke-dasharray="1.5 12" stroke-linecap="round" transform="rotate(-14 240 264)"/>
+            </g>
+
+            <!-- rising steam (each wisp loops) -->
+            <g class="hg-steam">
+              <path class="hg-steam__wisp" d="M224 200 C 210 176 234 156 224 132 C 216 112 232 92 224 72"  stroke="#FBF3E6" stroke-width="7" stroke-linecap="round" opacity="0.22"/>
+              <path class="hg-steam__wisp" d="M252 200 C 264 174 242 154 252 130 C 260 110 244 90 252 68" stroke="#FBF3E6" stroke-width="6" stroke-linecap="round" opacity="0.18"/>
+              <path class="hg-steam__wisp" d="M238 202 C 230 182 246 166 238 142"                          stroke="#FBF3E6" stroke-width="6" stroke-linecap="round" opacity="0.20"/>
+            </g>
+
+            <!-- ground shadow -->
+            <g class="hg-shadow"><ellipse cx="240" cy="392" rx="150" ry="22" fill="url(#hgShadow)"/></g>
+
+            <!-- plate -->
+            <g class="hg-plate">
+              <ellipse cx="240" cy="372" rx="158" ry="40" fill="url(#hgPlate)"/>
+              <ellipse cx="240" cy="372" rx="158" ry="40" fill="none" stroke="url(#hgGold)" stroke-width="5"/>
+              <ellipse cx="240" cy="369" rx="116" ry="26" fill="none" stroke="rgba(200,138,34,0.4)" stroke-width="2"/>
+              <ellipse cx="196" cy="360" rx="44" ry="8" fill="rgba(255,255,255,0.35)"/>
+            </g>
+
+            <!-- cloche dome -->
+            <g class="hg-dome">
+              <path d="M110 360 C 110 258 168 192 240 192 C 312 192 370 258 370 360 Z" fill="url(#hgDome)"/>
+              <!-- soft sheen band following the dome -->
+              <path d="M150 322 C 150 252 190 210 240 206" fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="14" stroke-linecap="round"/>
+              <!-- specular highlights -->
+              <ellipse cx="192" cy="268" rx="30" ry="66" transform="rotate(-20 192 268)" fill="url(#hgHi)"/>
+              <ellipse cx="184" cy="246" rx="9"  ry="20" transform="rotate(-20 184 246)" fill="rgba(255,255,255,0.5)"/>
+              <!-- gold rim light on the right edge -->
+              <path d="M240 192 C 312 192 370 258 370 360" fill="none" stroke="url(#hgRimLight)" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+              <!-- knob -->
+              <rect x="236" y="176" width="8" height="24" rx="4" fill="url(#hgGold)"/>
+              <circle cx="240" cy="172" r="13" fill="url(#hgKnob)"/>
+              <circle cx="236" cy="168" r="4" fill="rgba(255,255,255,0.7)"/>
+            </g>
+
+            <!-- social "engagement" chips (float + parallax) -->
+            <g class="hg-chips">
+              <g class="hg-chip hg-chip--heart">
+                <circle cx="392" cy="200" r="30" fill="rgba(10,30,10,0.18)"/>
+                <circle cx="390" cy="197" r="26" fill="#FFFFFF"/>
+                <path d="M390 208 C 380 199 373 193 373 186 C 373 181 377 178 381 178 C 385 178 388 181 390 184 C 392 181 395 178 399 178 C 403 178 407 181 407 186 C 407 193 400 199 390 208 Z" fill="#FFA626"/>
+              </g>
+              <g class="hg-chip hg-chip--chat">
+                <circle cx="96" cy="176" r="27" fill="rgba(10,30,10,0.18)"/>
+                <circle cx="94" cy="173" r="24" fill="#FFFFFF"/>
+                <path d="M82 163 h24 a5 5 0 0 1 5 5 v9 a5 5 0 0 1 -5 5 h-12 l-8 7 v-7 h-4 a5 5 0 0 1 -5 -5 v-9 a5 5 0 0 1 5 -5 Z" fill="#1C4815"/>
+                <circle cx="88" cy="173" r="2" fill="#FFA626"/><circle cx="94" cy="173" r="2" fill="#FFA626"/><circle cx="100" cy="173" r="2" fill="#FFA626"/>
+              </g>
+            </g>
+
+            <!-- sparkles (twinkle) -->
+            <g class="hg-sparkles">
+              <g class="hg-sparkle" transform="translate(332 118) scale(1.2)"><path d="M0 -8 C 1 -2 2 -1 8 0 C 2 1 1 2 0 8 C -1 2 -2 1 -8 0 C -2 -1 -1 -2 0 -8 Z" fill="#F4C15D"/></g>
+              <g class="hg-sparkle" transform="translate(150 150) scale(0.9)"><path d="M0 -8 C 1 -2 2 -1 8 0 C 2 1 1 2 0 8 C -1 2 -2 1 -8 0 C -2 -1 -1 -2 0 -8 Z" fill="#F4C15D"/></g>
+              <g class="hg-sparkle" transform="translate(300 300) scale(1.0)"><path d="M0 -8 C 1 -2 2 -1 8 0 C 2 1 1 2 0 8 C -1 2 -2 1 -8 0 C -2 -1 -1 -2 0 -8 Z" fill="#F4C15D"/></g>
+            </g>
+          </svg>
+        </div>
       </div>
+
     </div>
   </section>
 
@@ -432,17 +543,15 @@
 
 
   <!--
-    Animation libraries — all local copies in vendor/ so they work both when you
+    Animation libraries — local copies in vendor/ so they work both when you
     double-click index.html (file://) AND when hosted on Netlify. Loaded with
     `defer` so they download without blocking the page, and run in this order:
-      1. GSAP core            — timelines & tweens
-      2. ScrollTrigger        — scroll-scrubbed animations
-      3. Three.js             — the hero 3D cloche
-      4. main.js              — wires it all together
+      1. GSAP core     — timelines & tweens
+      2. ScrollTrigger — scroll-scrubbed animations & parallax
+      3. main.js       — wires it all together (hero graphic, reveals, form)
   -->
   <script defer src="vendor/gsap.min.js"></script>
   <script defer src="vendor/ScrollTrigger.min.js"></script>
-  <script defer src="vendor/three.min.js"></script>
   <script defer src="main.js"></script>
 </body>
 </html>

@@ -366,47 +366,70 @@ button { cursor: pointer; font: inherit; border: none; background: none; }
   100% { transform: translate(36px, -34px) scale(0.9); }
 }
 
-/* ---- Hero 3D stage (holds the Three.js canvas / SVG fallback) ---- */
-.hero__stage {
-  position: relative;
-  width: 100%;
-  height: clamp(210px, 42vw, 320px);
-  margin-bottom: var(--space-md);
-  z-index: 1;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  will-change: transform;
-}
-.hero__stage canvas { display: block; width: 100%; height: 100%; }
-
-.hero__fallback {
-  width: clamp(170px, 40vw, 260px);
-  height: auto;
-  filter: drop-shadow(0 20px 34px rgba(0, 0, 0, 0.35));
-}
-
+/* ---- Hero layout: text + premium SVG graphic in a responsive grid ----
+   Using a GRID (not absolute positioning) means the graphic always fits inside
+   its own column, so it can never be clipped or overlap the text — the bug the
+   old absolutely-positioned 3D canvas had on narrower screens. */
 .hero__inner {
   position: relative;
-  z-index: 2;                 /* keep text above the 3D stage where they overlap */
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr;      /* phones/tablets: single stacked column */
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+.hero__content {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: 720px;
+  max-width: 640px;
 }
 
-/* On wider screens the 3D sits to the RIGHT of the text instead of above it */
-@media (min-width: 900px) {
-  .hero__stage {
-    position: absolute;
-    top: 0;
-    right: 2%;
-    width: 42%;
-    height: 100%;
-    margin: 0;
+/* Stage + wrap are separate boxes so scroll-parallax (stage) and the ambient
+   float (wrap) never fight over the same transform. */
+.hero__stage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  will-change: transform;
+}
+.hero__graphic-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  will-change: transform;
+}
+
+/* width:100% + height:auto + viewBox = the whole graphic always shows, at any
+   size. max-width just stops it getting oversized on big screens. */
+.hero__graphic {
+  width: 100%;
+  max-width: 360px;                /* phone default */
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 26px 46px rgba(10, 30, 10, 0.34));
+}
+
+/* Hint the compositor for the layers GSAP animates */
+.hg-glow, .hg-ring, .hg-dome, .hg-chip, .hg-sparkle, .hg-steam { will-change: transform, opacity; }
+
+/* Tablet / desktop: two columns (text | graphic); graphic can grow larger */
+@media (min-width: 880px) {
+  .hero__inner {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: var(--space-xl);
   }
-  .hero__inner { max-width: 620px; }
+  .hero__content { max-width: none; }
+  .hero__graphic { max-width: 520px; }
+}
+
+/* Small phones: keep the graphic modest so the text leads */
+@media (max-width: 460px) {
+  .hero__graphic { max-width: 300px; }
 }
 
 /* ----------------------------------------------------------------
